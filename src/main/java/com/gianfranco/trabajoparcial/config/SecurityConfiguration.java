@@ -54,7 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()
                     .permitAll()
-                    .logoutSuccessUrl("/login");
+                    .logoutSuccessUrl("/login")
+                    .and()
+                .csrf();
     }
 
     public AuthenticationSuccessHandler loginSuccessHandler() {
@@ -63,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public AuthenticationFailureHandler loginFailureHandler() {
         return (request, response, exception) -> {
-            //request.getSession().setAttribute("flash", new FlashMessage("Incorrect username and/or password. Please try again.", FlashMessage.Status.FAILURE));
+            request.getSession().setAttribute("flash", "Incorrect username and/or password. Please try again");
             response.sendRedirect("/login");
         };
     }
